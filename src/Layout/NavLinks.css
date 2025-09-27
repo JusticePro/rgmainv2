@@ -1,0 +1,19 @@
+.nav-links
+{
+    display: flex;
+    gap: 20px;
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li
+{
+    list-style-type: none;
+}
+
+.nav-links a
+{
+    color: var(--yellow);
+    text-decoration: none;
+}

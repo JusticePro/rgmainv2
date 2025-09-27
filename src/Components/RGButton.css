@@ -1,0 +1,11 @@
+.rgbutton
+{
+    background-color: var(--button-color);
+    border: none;
+    color: white;
+    width: 8em;
+    height: 2.5em;
+    outline: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
