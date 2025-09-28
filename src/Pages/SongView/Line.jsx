@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Chord } from './Chord';
 import './Line.css';
+import { RGButton } from '/src/Components/RGButton';
+import { Stanza } from './Stanza';
 
 export function Line({stanzas, chords, onUpdateLine, editable})
 {
@@ -15,19 +17,29 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         onUpdateLine({stanzas: stanzas, chords: newChords});
     }
 
+    function addChord(chordName)
+    {
+        const newChords = [...chordState];
+        newChords.push({text: chordName, position: '0px'});
+        setChordState(newChords);
+        onUpdateLine({stanzas: stanzas, chords: newChords});
+    }
+
     const chordElements = chords.map((chord, index) => {
         return <Chord editable={editable} key={index} text={chord.text} position={chord.position} onUpdateChordPosition={(positionPixels) => {
-            console.log(positionPixels);
             updatePositionOnChord(index, positionPixels);
         }} />
     });
 
     const stanzaElements = stanzas.map((stanza, index) => {
-        return <span key={index}>{stanza}</span>
+        return <Stanza key={index} stanza={stanza} />;
     });
 
     return (
         <div className='line'>
+            <div className='line-add-chord-container'>
+                <RGButton onClick={() => {addChord(prompt('Chord'))}} className='line-add-chord' text={'Add Chord'} color={'#1fc636ff'} />
+            </div>
             <div className='line-chords'>
                 {chordElements}
             </div>

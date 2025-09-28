@@ -48,6 +48,6 @@ header
     display: flex;
     flex-direction: column;
     background-color: white;
-    padding: 0 1em 0 1em;
+    padding: 1em;
     width: 75%;
 }

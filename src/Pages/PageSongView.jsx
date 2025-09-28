@@ -20,7 +20,7 @@ export function PageSongView()
     return tabData ? (
         <>
             <h1>{tabData.title} ({tabData.hymnId})</h1>
-            <Song editable={false} tab={tabData.tab} />
+            <Song editable={true} tab={tabData.tab} />
         </>
     ) : (<h1>Loading...</h1>);
 }
