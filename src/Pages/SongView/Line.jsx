@@ -46,6 +46,8 @@ export function Line({stanzas, chords, onUpdateLine, editable})
             </div>
             <div className='line-stanzaContainer'>
                 {stanzaElements}
+            {editable ?
+                <Stanza newStanza={true} stanza={''} /> : <></>}
             </div>
         </div>
     );

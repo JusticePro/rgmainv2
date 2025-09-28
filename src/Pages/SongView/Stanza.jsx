@@ -1,8 +1,8 @@
 import './Stanza.css';
 
-export function Stanza({stanza, editable})
+export function Stanza({stanza, editable, newStanza=false})
 {
     return (
-        <input disabled={editable===false} className='stanza' defaultValue={stanza}></input>
+        <input placeholder={newStanza ? 'Type here to add a new stanza.' : ''} disabled={editable===false} className='stanza' defaultValue={stanza}></input>
     );
 }
