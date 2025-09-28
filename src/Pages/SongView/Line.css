@@ -1,0 +1,13 @@
+.line-chords
+{
+    display: flex;
+    height: 1.5em;
+}
+
+.line-stanzaContainer
+{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.1em;
+    letter-spacing: 0.1em;
+}

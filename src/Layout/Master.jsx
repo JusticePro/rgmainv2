@@ -9,10 +9,10 @@ function Master()
     return (
         <main>
             <header>
-                <div class='nav-right'>
+                <div className='nav-right'>
                     <RGButton color={'#D79129'} text={'Create Tab'}></RGButton>
                 </div>
-                <div class='nav-title-container'>
+                <div className='nav-title-container'>
                     <h1 className='nav-title'>Reformed Guitarist</h1>
                 </div>
                 <NavLinks />
