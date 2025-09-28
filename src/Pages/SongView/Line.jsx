@@ -37,9 +37,10 @@ export function Line({stanzas, chords, onUpdateLine, editable})
 
     return (
         <div className='line'>
-            <div className='line-add-chord-container'>
-                <RGButton onClick={() => {addChord(prompt('Chord'))}} className='line-add-chord' text={'Add Chord'} color={'#1fc636ff'} />
-            </div>
+            {editable ?
+                <div className='line-add-chord-container'>
+                    <RGButton onClick={() => {addChord(prompt('Chord'))}} className='line-add-chord' text={'Add Chord'} color={'#1fc636ff'} />
+                </div> : <></>}
             <div className='line-chords'>
                 {chordElements}
             </div>
