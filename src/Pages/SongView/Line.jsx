@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo, memo } from 'react';
 import { Chord } from './Chord';
 import './Line.css';
 import { RGButton } from '/src/Components/RGButton';
-import { Stanza } from './Stanza';
+import { Stanza, MemoizedStanza } from './Stanza';
 import { StanzaNew } from './StanzaNew';
 
 export function Line({stanzas, chords, onUpdateLine, editable})
@@ -16,7 +16,7 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         const newChords = [...chordState];
         newChords[index].position = position + 'px';
         setChordState(newChords);
-        
+
         // You send newChords because chordState is not updated immediately.
         onUpdateLine({stanzas: stanzas, chords: newChords});
     }
@@ -29,11 +29,12 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         onUpdateLine({stanzas: stanzas, chords: newChords});
     }
 
-    const chordElements = chords.map((chord, index) => {
+    const chordElements = useMemo(() =>
+    chordState.map((chord, index) => {
         return <Chord editable={editable} key={index} text={chord.text} position={chord.position} onUpdateChordPosition={(positionPixels) => {
             updatePositionOnChord(index, positionPixels);
         }} />
-    });
+    }), [chordState, editable]);
 
     /*
      * Stanza Management
@@ -58,17 +59,30 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         onUpdateLine({stanzas: newStanzas, chords: chordState});
     }
 
+    // Delete stanza at index.
+    function removeStanza(index)
+    {
+        const newStanzas = stanzaState.filter((value, id) => {
+            return id !== index;
+        });
+        console.log(newStanzas);
+        setStanzaState(newStanzas);
+        onUpdateLine({stanzas: newStanzas, chords: chordState});
+    }
+
     // Render stanzas.
     const newStanza = useRef(false);
-    const stanzaElements = stanzas.map((stanza, index) => {
+    const stanzaElements = useMemo(() => stanzaState.map((stanza, index) => {
         
         // If the stanza is the last stanza and there is a new stanza. Render the stanza with the newStanza value.
         // This will be used to set the focus to the new input box instead of the StanzaNew component.
-        return <Stanza key={index} stanza={stanza} onStanzaChange={(value) =>
+        return <MemoizedStanza key={`${index} ${stanza}`} editable={editable} stanza={stanza} onStanzaChange={(value) =>
             {
                 updateStanza(index, value);
+            }} removeStanza={() => {
+                removeStanza(index);
             }} />;
-    });
+    }), [stanzaState, editable]);
 
 
     // Return element.
@@ -95,3 +109,5 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         </div>
     );
 }
+
+export const MemoizedLine = memo(Line);

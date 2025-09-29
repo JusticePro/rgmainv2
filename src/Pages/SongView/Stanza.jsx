@@ -1,15 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import './Stanza.css';
 
-export function Stanza({stanza, editable, onStanzaChange})
+export function Stanza({stanza, editable, onStanzaChange, removeStanza})
 {
     const input = useRef(null);
-    // Set the trigger value to reset the input box when a new stanza is added.
-    // This allows the line function to call a trigger.
     
     function onChange(e)
     {
         onStanzaChange(e.target.value);
+    }
+
+    function onKeyDown(e)
+    {
+        // If the user presses backspace on an empty input box, delete the stanza.
+        if (e.key === 'Backspace' && e.target.value === '')
+        {
+            e.preventDefault();
+            removeStanza();
+        }
     }
 
     // Focus the input box when the component is rendered.
@@ -21,6 +29,8 @@ export function Stanza({stanza, editable, onStanzaChange})
     }, []);
 
     return (
-        <input ref={input} onChange={onChange} disabled={editable===false} className='stanza' defaultValue={stanza}></input>
+        <input ref={input} onKeyDown={onKeyDown} onChange={onChange} disabled={editable===false} className='stanza' defaultValue={stanza}></input>
     );
 }
+
+export const MemoizedStanza = memo(Stanza);
