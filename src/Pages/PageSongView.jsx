@@ -1,10 +1,11 @@
-import { useParams } from "react-router";
+import { useParams, NavLink } from "react-router";
 import { getTabFromHymnID } from '/src/ApiInterface';
 import { useEffect, useState } from "react";
 import { Song } from "./SongView/Song";
 import { Badge } from "../Components/Badge";
 
 import './PageSongView.css';
+import { RGButton } from "../Components/RGButton";
 
 export function PageSongView({editing=false})
 {
@@ -27,6 +28,7 @@ export function PageSongView({editing=false})
                 {tabData.verified ? <Badge text={'Verified'} color={'#2faf35ff'} /> : <></>}
             </div>
             <Song editable={editing} tab={tabData.tab} />
+            {!editing ? <NavLink to={`/song/${songId}/edit`}><RGButton text={'Edit Tab'} color={'#edbb14ff'} /></NavLink> : null}
         </>
     ) : (<h1>Loading...</h1>);
 }
