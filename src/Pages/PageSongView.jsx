@@ -26,7 +26,7 @@ export function PageSongView({editing=false})
                 <h1 className='page-songview-title'>{tabData.title} ({tabData.hymnId})</h1>
                 {tabData.verified ? <Badge text={'Verified'} color={'#2faf35ff'} /> : <></>}
             </div>
-            <Song editable={false} tab={tabData.tab} />
+            <Song editable={editing} tab={tabData.tab} />
         </>
     ) : (<h1>Loading...</h1>);
 }
