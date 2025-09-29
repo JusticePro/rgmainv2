@@ -8,6 +8,7 @@ import { StanzaNew } from './StanzaNew';
 export function Line({stanzas, chords, onUpdateLine, editable})
 {
     const [chordState, setChordState] = useState(chords);
+    const [stanzaState, setStanzaState] = useState(stanzas);
 
     function updatePositionOnChord(index, positionPixels)
     {
@@ -15,6 +16,8 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         const newChords = [...chordState];
         newChords[index].position = position + 'px';
         setChordState(newChords);
+        
+        // You send newChords because chordState is not updated immediately.
         onUpdateLine({stanzas: stanzas, chords: newChords});
     }
 
@@ -39,10 +42,20 @@ export function Line({stanzas, chords, onUpdateLine, editable})
     // Append a new stanza to the line.
     function addStanza(stanzaText)
     {
-        const newStanzas = [...stanzas];
+        const newStanzas = [...stanzaState];
         newStanzas.push(stanzaText);
+        setStanzaState(newStanzas);
         onUpdateLine({stanzas: newStanzas, chords: chordState});
         newStanza.current = true;
+    }
+
+    // Update text value of stanza.
+    function updateStanza(index, stanzaText)
+    {
+        const newStanzas = [...stanzas];
+        newStanzas[index] = stanzaText;
+        setStanzaState(newStanzas);
+        onUpdateLine({stanzas: newStanzas, chords: chordState});
     }
 
     // Render stanzas.
@@ -51,12 +64,10 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         
         // If the stanza is the last stanza and there is a new stanza. Render the stanza with the newStanza value.
         // This will be used to set the focus to the new input box instead of the StanzaNew component.
-        if (index === stanzas.length - 1 && newStanza.current === true)
-        {
-            newStanza.current = false;
-            return <Stanza key={index} stanza={stanza + ' yo'} onStanzaChange={(value) => {}} newStanza={true} />;
-        }
-        return <Stanza key={index} stanza={stanza} onStanzaChange={(value) => {}} />;
+        return <Stanza key={index} stanza={stanza} onStanzaChange={(value) =>
+            {
+                updateStanza(index, value);
+            }} />;
     });
 
 
@@ -79,7 +90,6 @@ export function Line({stanzas, chords, onUpdateLine, editable})
                         if (value.trim() === '')
                             return;
                         addStanza(value);
-                        console.log(stanzaElements[stanzaElements.length-1]);
                     }} /> : <></>}
             </div>
         </div>
