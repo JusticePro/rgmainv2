@@ -6,7 +6,7 @@ export function getTabFromHymnID(hymnId)
 {
     return {
         'hymnId': hymnId,
-        'title': 'Sample Song',
+        'title': 'In Christ Alone',
         'tab': [
             {
                 stanzas: ["In Christ a - lone, my hope is found.", "In Christ a - lone! Who took on flesh,"],

@@ -1,0 +1,12 @@
+.page-songview-title
+{
+    display: inline-block;
+    margin-right: 0.25em;
+}
+
+.page-songview-header
+{
+    display: flex;
+    align-items: center;
+
+}

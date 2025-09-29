@@ -4,7 +4,7 @@ import {RGButton} from '/src/Components/RGButton';
 
 export function Song({editable, tab})
 {
-    const [viewing, setViewing] = useState(false);
+    const [viewing, setViewing] = useState(!editable);
     const [lines, setLines] = useState(tab);
     function compileToJson()
     {

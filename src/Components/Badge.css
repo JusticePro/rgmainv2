@@ -1,0 +1,14 @@
+.rgbadge
+{
+    display: flex;
+    align-items: center;
+    background-color: var(--badge-color);
+    border: none;
+    color: white;
+    
+    height: 1.5em;
+    padding: 0 0.5em 0 0.5em;
+    outline: none;
+    border-radius: 0.5em;
+    cursor: default;
+}
