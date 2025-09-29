@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Chord } from './Chord';
 import './Line.css';
 import { RGButton } from '/src/Components/RGButton';
 import { Stanza } from './Stanza';
+import { StanzaNew } from './StanzaNew';
 
 export function Line({stanzas, chords, onUpdateLine, editable})
 {
@@ -31,10 +32,35 @@ export function Line({stanzas, chords, onUpdateLine, editable})
         }} />
     });
 
+    /*
+     * Stanza Management
+     */
+
+    // Append a new stanza to the line.
+    function addStanza(stanzaText)
+    {
+        const newStanzas = [...stanzas];
+        newStanzas.push(stanzaText);
+        onUpdateLine({stanzas: newStanzas, chords: chordState});
+        newStanza.current = true;
+    }
+
+    // Render stanzas.
+    const newStanza = useRef(false);
     const stanzaElements = stanzas.map((stanza, index) => {
-        return <Stanza key={index} stanza={stanza} />;
+        
+        // If the stanza is the last stanza and there is a new stanza. Render the stanza with the newStanza value.
+        // This will be used to set the focus to the new input box instead of the StanzaNew component.
+        if (index === stanzas.length - 1 && newStanza.current === true)
+        {
+            newStanza.current = false;
+            return <Stanza key={index} stanza={stanza + ' yo'} onStanzaChange={(value) => {}} newStanza={true} />;
+        }
+        return <Stanza key={index} stanza={stanza} onStanzaChange={(value) => {}} />;
     });
 
+
+    // Return element.
     return (
         <div className='line'>
             {editable ?
@@ -47,7 +73,14 @@ export function Line({stanzas, chords, onUpdateLine, editable})
             <div className='line-stanzaContainer'>
                 {stanzaElements}
             {editable ?
-                <Stanza newStanza={true} stanza={''} /> : <></>}
+                <StanzaNew onStanzaChange={(value) =>
+                    {
+                        // This is for the new stanza box.
+                        if (value.trim() === '')
+                            return;
+                        addStanza(value);
+                        console.log(stanzaElements[stanzaElements.length-1]);
+                    }} /> : <></>}
             </div>
         </div>
     );
