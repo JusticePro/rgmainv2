@@ -1,5 +1,22 @@
 /**
  * Takes hymn number returns json for the tab.
+ * Returns an object with structure:
+ * {
+ *  hymnId: The hymn number that is written in the hymnal.
+ *  title: The written title of the hymn.
+ *  tab:
+ *  [
+ *      {
+ *          stanzas: ['Stanza 1', 'Stanza 2'],
+ *          chords: [{text: 'C', position: '0px'}, {text: 'Am', position: '16px'}]
+ *      },
+ *      {
+ *          stanzas: ['Stanza 1', 'Stanza 2'],
+ *          chords: [{text: 'F', position: '0px'}, {text: 'G', position: '16px'}]
+ *      }
+ *  ],
+ *  verified: true|false (this is for admin verification badge)
+ * }
  * @param {*} hymnId 
  */
 export function getTabFromHymnID(hymnId)
