@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, memo } from 'react';
+import { useRef, useState, useMemo, memo, useEffect } from 'react';
 import { Chord } from './Chord';
 import './Line.css';
 import { RGButton } from '/src/Components/RGButton';
@@ -73,7 +73,14 @@ export function Line({stanzas, chords, onUpdateLine, editable})
     // Render stanzas.
     const newStanza = useRef(false);
     const stanzaElements = useMemo(() => stanzaState.map((stanza, index) => {
-        
+        let shouldFocus = false;
+
+        if (index === stanzaState.length-1 && newStanza.current)
+        {
+            shouldFocus = true;
+            newStanza.current = false;
+        }
+
         // If the stanza is the last stanza and there is a new stanza. Render the stanza with the newStanza value.
         // This will be used to set the focus to the new input box instead of the StanzaNew component.
         return <MemoizedStanza key={`${index} ${stanza}`} editable={editable} stanza={stanza} onStanzaChange={(value) =>
@@ -81,10 +88,9 @@ export function Line({stanzas, chords, onUpdateLine, editable})
                 updateStanza(index, value);
             }} removeStanza={() => {
                 removeStanza(index);
-            }} />;
-    }), [stanzaState, editable]);
-
-
+            }} shouldFocus={shouldFocus} />;
+    }));
+    
     // Return element.
     return (
         <div className='line'>

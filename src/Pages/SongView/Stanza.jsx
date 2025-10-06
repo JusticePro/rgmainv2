@@ -1,7 +1,7 @@
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import './Stanza.css';
 
-export function Stanza({stanza, editable, onStanzaChange, removeStanza})
+export function Stanza({stanza, editable, onStanzaChange, removeStanza, shouldFocus})
 {
     const input = useRef(null);
     
@@ -25,11 +25,14 @@ export function Stanza({stanza, editable, onStanzaChange, removeStanza})
     // This will also focus the input box when a new stanza is added.
     useEffect(() =>
     {
-        input.current.focus();
+        if (shouldFocus)
+        {
+            input.current.focus();
+        }
     }, []);
 
     return (
-        <input ref={input} onKeyDown={onKeyDown} onChange={onChange} disabled={editable===false} className='stanza' defaultValue={stanza}></input>
+        <input ref={input} onKeyDown={onKeyDown} /*onChange={onChange}*/ onBlur={onChange} disabled={editable===false} className='stanza' defaultValue={stanza}></input>
     );
 }
 

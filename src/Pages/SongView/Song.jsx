@@ -12,6 +12,7 @@ export function Song({editable, tab})
 
     function updateLine(index, newLine)
     {
+        console.log(lines);
         const newLines = [...lines];
         newLines[index] = newLine;
         setLines(newLines);
@@ -22,6 +23,13 @@ export function Song({editable, tab})
         updateLine(index, newLine);
     }
 
+    function appendNewLine()
+    {
+        const newLines = [...lines];
+        newLines.push({stanzas: [], chords: []});
+        setLines(newLines);
+    }
+
     const lineElements = lines.map((line, index) => {
         return <MemoizedLine editable={editable} key={index} stanzas={line.stanzas} chords={line.chords} onUpdateLine={(newLine) => handleLineUpdate(index, newLine)} />
     });
@@ -29,6 +37,7 @@ export function Song({editable, tab})
     return (
         <div className='song'>
             {lineElements}
+            <RGButton text={'New Line'} color={'#1fc6beff'} onClick={() => appendNewLine()} />
         </div>
     )
 }
